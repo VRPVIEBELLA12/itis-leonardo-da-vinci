@@ -1,0 +1,304 @@
+local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function initPlayerStats(player)
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if not leaderstats then
+        leaderstats = Instance.new("Folder")
+        leaderstats.Name = "leaderstats"
+        leaderstats.Parent = player
+    end
+
+    local money = leaderstats:FindFirstChild("Wang")
+    if not money then
+        money = Instance.new("IntValue")
+        money.Name = "Wang"
+        money.Value = 100
+        money.Parent = leaderstats
+    end
+
+    local reputation = leaderstats:FindFirstChild("Reputasi")
+    if not reputation then
+        reputation = Instance.new("IntValue")
+        reputation.Name = "Reputasi"
+        reputation.Value = 10
+        reputation.Parent = leaderstats
+    end
+
+    local level = leaderstats:FindFirstChild("Level")
+    if not level then
+        level = Instance.new("IntValue")
+        level.Name = "Level"
+        level.Value = 1
+        level.Parent = leaderstats
+    end
+
+    local isAdmin = player:FindFirstChild("IsAdmin")
+    if not isAdmin then
+        isAdmin = Instance.new("BoolValue")
+        isAdmin.Name = "IsAdmin"
+        isAdmin.Value = false
+        isAdmin.Parent = player
+    end
+
+    local isOwner = player:FindFirstChild("IsOwner")
+    if not isOwner then
+        isOwner = Instance.new("BoolValue")
+        isOwner.Name = "IsOwner"
+        isOwner.Value = false
+        isOwner.Parent = player
+    end
+
+    local carePoints = player:FindFirstChild("CarePoints")
+    if not carePoints then
+        carePoints = Instance.new("IntValue")
+        carePoints.Name = "CarePoints"
+        carePoints.Value = 0
+        carePoints.Parent = player
+    end
+
+    local gemCount = player:FindFirstChild("Gems")
+    if not gemCount then
+        gemCount = Instance.new("IntValue")
+        gemCount.Name = "Gems"
+        gemCount.Value = 0
+        gemCount.Parent = player
+    end
+
+    local woodCount = player:FindFirstChild("Wood")
+    if not woodCount then
+        woodCount = Instance.new("IntValue")
+        woodCount.Name = "Wood"
+        woodCount.Value = 0
+        woodCount.Parent = player
+    end
+
+    local stoneCount = player:FindFirstChild("Stone")
+    if not stoneCount then
+        stoneCount = Instance.new("IntValue")
+        stoneCount.Name = "Stone"
+        stoneCount.Value = 0
+        stoneCount.Parent = player
+    end
+
+    local ironCount = player:FindFirstChild("Iron")
+    if not ironCount then
+        ironCount = Instance.new("IntValue")
+        ironCount.Name = "Iron"
+        ironCount.Value = 0
+        ironCount.Parent = player
+    end
+
+    local goldCount = player:FindFirstChild("Gold")
+    if not goldCount then
+        goldCount = Instance.new("IntValue")
+        goldCount.Name = "Gold"
+        goldCount.Value = 0
+        goldCount.Parent = player
+    end
+
+    local helpCount = player:FindFirstChild("HelpCount")
+    if not helpCount then
+        helpCount = Instance.new("IntValue")
+        helpCount.Name = "HelpCount"
+        helpCount.Value = 0
+        helpCount.Parent = player
+    end
+
+    local reportCount = player:FindFirstChild("ReportCount")
+    if not reportCount then
+        reportCount = Instance.new("IntValue")
+        reportCount.Name = "ReportCount"
+        reportCount.Value = 0
+        reportCount.Parent = player
+    end
+
+    local banStatus = player:FindFirstChild("IsBanned")
+    if not banStatus then
+        banStatus = Instance.new("BoolValue")
+        banStatus.Name = "IsBanned"
+        banStatus.Value = false
+        banStatus.Parent = player
+    end
+
+    local devStatus = player:FindFirstChild("DevStatus")
+    if not devStatus then
+        devStatus = Instance.new("StringValue")
+        devStatus.Name = "DevStatus"
+        devStatus.Value = "Player"
+        devStatus.Parent = player
+    end
+
+    if player.Name == "Atikah12388" then
+        isAdmin.Value = true
+        isOwner.Value = true
+        devStatus.Value = "Developer Admin Owner"
+        print("Atikah12388 telah masuk ke dalam game sendiri")
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    initPlayerStats(player)
+end)
+
+local function grantAdminPowers(player)
+    local isOwner = player:FindFirstChild("IsOwner")
+    if isOwner and isOwner.Value == true then
+        local isAdmin = player:FindFirstChild("IsAdmin")
+        if isAdmin then
+            isAdmin.Value = true
+            print(player.Name .. " sekarang mempunyai kuasa admin penuh")
+        end
+    end
+end
+
+local function giveCareReward(player)
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats then
+        local money = leaderstats:FindFirstChild("Wang")
+        local reputation = leaderstats:FindFirstChild("Reputasi")
+        if money and reputation then
+            money.Value += 50
+            reputation.Value += 15
+            print(player.Name .. " menerima ganjaran kerana sikap prihatin")
+        end
+    end
+end
+
+local function completeHelpQuest(player)
+    local helpCount = player:FindFirstChild("HelpCount")
+    local carePoints = player:FindFirstChild("CarePoints")
+    if helpCount and carePoints then
+        helpCount.Value += 1
+        carePoints.Value += 10
+        if helpCount.Value >= 5 then
+            giveCareReward(player)
+            print(player.Name .. " selesai quest membantu komuniti")
+        end
+    end
+end
+
+local function addWood(player)
+    local woodCount = player:FindFirstChild("Wood")
+    if woodCount then
+        woodCount.Value += 1
+        print(player.Name .. " mendapat 1 kayu")
+    end
+end
+
+local function addStone(player)
+    local stoneCount = player:FindFirstChild("Stone")
+    if stoneCount then
+        stoneCount.Value += 1
+        print(player.Name .. " mendapat 1 batu")
+    end
+end
+
+local function addIron(player)
+    local ironCount = player:FindFirstChild("Iron")
+    if ironCount then
+        ironCount.Value += 1
+        print(player.Name .. " mendapat 1 besi")
+    end
+end
+
+local function addGold(player)
+    local goldCount = player:FindFirstChild("Gold")
+    if goldCount then
+        goldCount.Value += 1
+        print(player.Name .. " mendapat 1 emas")
+    end
+end
+
+local function useAdminBan(admin, targetName)
+    local isAdmin = admin:FindFirstChild("IsAdmin")
+    if isAdmin and isAdmin.Value == true then
+        local target = Players:FindFirstChild(targetName)
+        if target then
+            local banStatus = target:FindFirstChild("IsBanned")
+            if banStatus then
+                banStatus.Value = true
+                target:Kick("Anda telah diban oleh Admin Atikah12388")
+                print(admin.Name .. " telah ban " .. targetName)
+            end
+        end
+    end
+end
+
+local function useAdminUnban(admin, targetName)
+    local isOwner = admin:FindFirstChild("IsOwner")
+    if isOwner and isOwner.Value == true then
+        print("Atikah12388 sedang memproses unban untuk " .. targetName)
+    end
+end
+
+local function cleanServerResources(admin)
+    local isOwner = admin:FindFirstChild("IsOwner")
+    if isOwner and isOwner.Value == true then
+        print("Atikah12388 sedang membersihkan server untuk prestasi terbaik")
+    end
+end
+
+local function checkPlayerReports(admin, targetName)
+    local target = Players:FindFirstChild(targetName)
+    if target then
+        local reportCount = target:FindFirstChild("ReportCount")
+        if reportCount then
+            print("Pemain " .. targetName .. " mempunyai " .. reportCount.Value .. " laporan")
+        end
+    end
+end
+
+local function rewardLoyalty(player)
+    local gemCount = player:FindFirstChild("Gems")
+    if gemCount then
+        gemCount.Value += 5
+        print(player.Name .. " mendapat 5 permata percuma")
+    end
+end
+
+local function developerAnnouncement(admin, message)
+    local devStatus = admin:FindFirstChild("DevStatus")
+    if devStatus and devStatus.Value == "Developer Admin Owner" then
+        print("[ANNOUNCEMENT] " .. admin.Name .. ": " .. message)
+    end
+end
+
+local function upgradeLevel(player)
+    local leaderstats = player:FindFirstChild("leaderstats")
+    if leaderstats then
+        local level = leaderstats:FindFirstChild("Level")
+        local money = leaderstats:FindFirstChild("Wang")
+        if level and money then
+            if money.Value >= 500 then
+                money.Value -= 500
+                level.Value += 1
+                print(player.Name .. " telah naik ke level " .. level.Value)
+            end
+        end
+    end
+end
+
+local function giveSpecialTool(player)
+    local isOwner = player:FindFirstChild("IsOwner")
+    if isOwner and isOwner.Value == true then
+        print("Atikah12388 mengambil alatan developer khas")
+    end
+end
+
+_G.grantAdminPowers = grantAdminPowers
+_G.giveCareReward = giveCareReward
+_G.completeHelpQuest = completeHelpQuest
+_G.addWood = addWood
+_G.addStone = addStone
+_G.addIron = addIron
+_G.addGold = addGold
+_G.useAdminBan = useAdminBan
+_G.useAdminUnban = useAdminUnban
+_G.cleanServerResources = cleanServerResources
+_G.checkPlayerReports = checkPlayerReports
+_G.rewardLoyalty = rewardLoyalty
+_G.developerAnnouncement = developerAnnouncement
+_G.upgradeLevel = upgradeLevel
+_G.giveSpecialTool = giveSpecialTool
